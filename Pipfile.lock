@@ -1,11 +1,11 @@
-p{
+pyp{
     "_meta": {
         "hash": {
             "sha256": "d89323cbab98335a90a8e605775d7d0d1a1de0ac5a00b1fd4a19ef0db210e488"
         },
         "pipfile-spec": 6,
         "requires": {
-            "python_version": "3.8.10"
+            "python_version": "3.8"
         },
         "sources": [
             {
@@ -21,7 +21,7 @@ p{
                 "sha256:4ef1ab46b484e3c706329cedeff284a5d40824200638503f5768edb6de7d58e9",
                 "sha256:ffc141aa908e6f175673e7b1b3b7af4fdb0ecb738fc5c8b88f69f055c2415214"
             ],
-            "markers": "python_version >= '3.8.10'",
+            "markers": "python_version >= '3.5'",
             "version": "==3.4.1"
         },
         "certifi": {
