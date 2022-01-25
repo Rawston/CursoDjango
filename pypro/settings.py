@@ -9,17 +9,18 @@ https://docs.djangoproject.com/en/2.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
-
-import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# from functools import partial
+import os
 from functools import partial
+from pathlib import Path
 
 import dj_database_url
-# import sentry_sdk
-from decouple import Csv, config
+from decouple import config, Csv
+
 # from sentry_sdk.integrations.django import DjangoIntegration
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -31,7 +32,6 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
-
 
 # Application definition
 
@@ -75,23 +75,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'pypro.wsgi.application'
 
-
 # Database
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
+# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 default_db_url = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
-
-
-def patial(parse, conn_max_age):
-    pass
-
-
-parse_database = patial(dj_database_url.parse, conn_max_age=600)
-
+parse_database = partial(dj_database_url.parse, conn_max_age=600)
 DATABASES = {
-    'default': config('DATABASE_URL', default_db_url, cast=parse_database)
-    }
-
+    'default': config('DATABASE_URL', default=default_db_url,
+                      cast=parse_database)
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -111,25 +103,81 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
 LANGUAGE_CODE = 'pt-br'
 
-TIME_ZONE = 'America/são_Paulo'
+TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 
+USE_L10N = True
+
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.0/howto/static-files/
+# https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
+
+COLLECTFAST_ENABLED = False
+
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+
+# STORAGE CONFIGURATION IN S3 AWS
+# ------------------------------------------------------------------------------
+
+if AWS_ACCESS_KEY_ID:
+    AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400', }
+    AWS_PRELOAD_METADATA = True
+    AWS_AUTO_CREATE_BUCKET = False
+    AWS_QUERYSTRING_AUTH = True
+    AWS_S3_CUSTOM_DOMAIN = None
+    AWS_DEFAULT_ACL = 'private'
+
+    COLLECTFAST_STRATEGY = "collectfast.strategies.boto3.Boto3Strategy"
+    COLLECTFAST_ENABLED = True
+
+    # Static Assets
+    # ------------------------------------------------------------------------------
+    STATICFILES_STORAGE = 's3_folder_storage.s3.StaticStorage'
+    STATIC_S3_PATH = 'static'
+    STATIC_ROOT = f'/{STATIC_S3_PATH}/'
+    STATIC_URL = f'//s3.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}/{STATIC_S3_PATH}/'
+    ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
+
+    # Upload Media Folder
+    DEFAULT_FILE_STORAGE = 's3_folder_storage.s3.DefaultStorage'
+    DEFAULT_S3_PATH = 'media'
+    MEDIA_ROOT = f'/{DEFAULT_S3_PATH}/'
+    MEDIA_URL = f'//s3.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}/{DEFAULT_S3_PATH}/'
+
+    INSTALLED_APPS.append('s3_folder_storage')
+    INSTALLED_APPS.append('storages')
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
+# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Configurando o sentry sdk
+
+SENTRY_DSN = config('SENTRY_DSN', default=None)
+
+if SENTRY_DSN:
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        traces_sample_rate=1.0,
+        send_default_pii=True
+    )

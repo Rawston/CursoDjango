@@ -1,14 +1,14 @@
 language: python
+dist: xenial
+sudo: true
+
 python:
-  - "2.7"
-  - "3.8"
-virtualenv:
-  system_site_packages: true
+  - 3.8
 
 services:
-  postgresql
+  - postgresql
 addons:
-  postgresql: '9.5'
+  postgresql: '9.6'
 
 env:
   global:
@@ -29,4 +29,3 @@ script:
 
 after_success:
   - pipenv run codecov
-  
