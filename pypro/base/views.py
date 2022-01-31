@@ -4,4 +4,4 @@ from django.http import HttpResponse
 
 
 def home(request):
-    return HttpResponse('olá django')
+    return HttpResponse('<html><body>olá django</body></html>', content_type='text/html')
