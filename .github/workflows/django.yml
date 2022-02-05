@@ -1,20 +1,13 @@
-name: Django application
+name: Test
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: [ push ]
 
 jobs:
   build:
     env:
-      PIPENV_VENV_IN_PROJECT: 1
-      PIPENV_NO_INHERIT: 1
-      PIPENV_IGNORE_VIRTUALENVS: 1
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     runs-on: ubuntu-latest
-
 
     services:
       postgres:
@@ -26,30 +19,27 @@ jobs:
         ports: [ '5432:5432' ]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.9
-
-    - name: Copiar Configurações .env
-      run: |
+      - uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+          architecture: x64
+      - name: Copiar Configurações .env
+        run: |
           cp contrib/env-sample .env
-
-    - name: Install dependencies
-      run: |
-        python3 -m pip install --upgrade pip
-        pip install pipenv
-        pipenv install codecov
-        pipenv sync -d
-        pipenv install --deploy --dev
-
-    - name: Test with pytest
-      run: |
-        pipenv run pytest --cov=pypro
-
-    - name: Relatório Coverage
-      env:
+      - name: Instalar dependências
+        run: |
+          pip install -r requirements-dev.txt
+      - name: Rodar flake8
+        uses: py-actions/flake8@v1
+        with:
+          checkName: 'flake8_py3'   # NOTE: this needs to be the same as the job name
+      - name: Rodar Testes Automáticos
+        run: |
+          pytest --cov=pypro
+      - name: Relatório Coverage
+        env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-      run: |
-        pipenv run codecov
+        run: |
+          codecov
