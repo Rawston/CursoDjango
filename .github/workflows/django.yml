@@ -21,4 +21,4 @@ jobs:
         pip install pipenv
     - name: Rodar Testes Automáticos
       run:
-        pipenv run pytest pypro
+        pipenv run pytest
