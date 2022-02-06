@@ -23,12 +23,11 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: 3.8
-      - name: Copiar Configurações .env
-      - name: Install dependencies
+      - name: Install dependencias
         run:
-          # python3 -m pip install --upgrade pip
+          python3 -m pip install --upgrade pip
           pip install pipenv
-          # pipenv install codecov
+          pipenv install codecov
           pipenv sync -d
           pipenv install --deploy --dev
       - name: Test with pytest
