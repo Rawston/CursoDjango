@@ -29,8 +29,7 @@ jobs:
       - name: Copiar Configurações .env
         run:
           cp contrib/env-sample .env
-
-      - name: Install dependencies
+      - name: Install dependências
         run:
           # python3 -m pip install --upgrade pip
           pip install pipenv
