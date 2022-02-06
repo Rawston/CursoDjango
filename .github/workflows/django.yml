@@ -25,7 +25,7 @@ jobs:
           python-version: 3.8
       - name: Copiar Configurações .env
         run:
-            cp contrib/env-sample .env   
+            # cp contrib/env-sample .env
       - name: Install dependencies
         run:
             # python3 -m pip install --upgrade pip
