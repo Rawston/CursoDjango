@@ -27,12 +27,12 @@ jobs:
             run:
               cp contrib/env-sample .env
           - name: Install dependências
-            run:
+            # run:
             # python3 -m pip install --upgrade pip
             # pip install pipenv
             # pipenv install codecov
             # pipenv sync -d
-            pipenv install --deploy --dev
+            # pipenv install --deploy --dev
             - name: Test with pytest
               run:
                 pipenv run pytest --no-migrations --cov=pypro
