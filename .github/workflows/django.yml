@@ -11,15 +11,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Setup Python
+    - name: Setup Python 3.9
       uses: actions/setup-python@v1
       with:
         python-version: 3.9
-
     - name: Instalar dependências
       run:
         pip install pipenv
-        pip install pipenv pipenv sync --dev
+        pipenv sync --dev
     - name: Rodar Testes Automáticos
       run:
         pipenv run pytest
