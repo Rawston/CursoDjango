@@ -16,9 +16,9 @@ jobs:
       with:
         python-version: 3.9
     - name: Instalar dependências
-      run:
+      run: |
         pip install pipenv
         pipenv sync --dev
     - name: Rodar Testes Automáticos
-      run:
+      run: |
         pipenv run pytest
