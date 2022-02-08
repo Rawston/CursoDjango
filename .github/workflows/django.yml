@@ -43,7 +43,6 @@ jobs:
         pipenv install codecov
         pipenv sync -d
         pipenv install --deploy --dev
-
     - name: Test with pytest
       run: |
         pipenv run pytest --no-migrations --cov=pypro/aperitivos/tests
