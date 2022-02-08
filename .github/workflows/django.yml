@@ -54,3 +54,5 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       run: |
         pipenv run codecov
+    - name: Codecov
+      uses: codecov/codecov-action@v2.1.0
