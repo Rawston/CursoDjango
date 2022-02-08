@@ -39,8 +39,7 @@ jobs:
     - name: Install dependencies
       run: |
         python3 -m pip install --upgrade pip
-        pip install pipenv
-        pipenv --python path/to/python
+        sudo apt install pipenv
         pipenv install codecov
         pipenv sync -d
         pipenv install --deploy --dev
