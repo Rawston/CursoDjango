@@ -52,32 +52,8 @@ jobs:
 
     - name: Relatório Coverage
       env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       run: |
         pipenv run codecov
     - name: Codecov
       uses: codecov/codecov-action@v2.1.0
-     codecov:
-      require_ci_to_pass: true
-      comentário:
-        comportamento: padrão
-        layout: alcance , diff , bandeiras , árvore , alcance
-        show_carryforward_flags: false
-      cobertura:
-        precisão: 2
-        intervalo:
-          - 70,0
-          - 100,0
-        redondo: baixo
-        estado:
-          alterações: falso
-          regras_default:
-            flag_coverage_not_uploaded_behavior: incluir
-          remendo:
-            padrão:
-              alvo: 0,0
-          projeto:
-            padrão:
-              alvo: 0,0
-      github_checks:
-        anotações: verdadeiro
