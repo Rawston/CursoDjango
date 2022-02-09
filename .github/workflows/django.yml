@@ -42,6 +42,7 @@ jobs:
         pip --version
         python3 -m pip install --upgrade pip
         pip install pipenv
+        pipenv install coverage
         pipenv install codecov
         pipenv sync -d
         pipenv install --deploy --dev
