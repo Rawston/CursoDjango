@@ -19,6 +19,7 @@ from sentry_sdk.integrations.django import DjangoIntegration
 
 import dj_database_url
 from decouple import config, Csv
+
 # from sentry_sdk.integrations.django import DjangoIntegration
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -74,7 +75,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'pypro.wsgi.application'
 # Configurações Django Toolbar
-INTERNAL_IPS=config('INTERNAL_IPS', cast=Csv(), default='127.0.0.1')
+INTERNAL_IPS = config('INTERNAL_IPS', cast=Csv(), default='127.0.0.1')
 if DEBUG:
     INSTALLED_APPS.append('debug_toolbar')
     MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
@@ -87,6 +88,7 @@ DATABASES = {
     'default': config('DATABASE_URL', default=default_db_url,
                       cast=parse_database)
 }
+
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
@@ -175,7 +177,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SENTRY_DSN = config('SENTRY_DSN', default=None)
 
 if SENTRY_DSN:
-        sentry_sdk.init(
-            dsn=SENTRY_DSN,
-            integrations=[DjangoIntegration()],
-        )
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+    )
