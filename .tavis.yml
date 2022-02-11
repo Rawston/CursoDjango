@@ -3,7 +3,7 @@ dist: xenial
 sudo: true
 
 python:
-  - 3.9
+  - 3.8.12
 
 services:
   - postgresql
