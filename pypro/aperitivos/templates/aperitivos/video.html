@@ -20,7 +20,6 @@
 
 </head>
 <body>
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="padding-left: 10px">
     <a class="navbar-brand" href="{% url 'base:home' %}">Python Pro</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -39,13 +38,11 @@
     <div class="row">
         <div class="col-md-12">
             <h1 class="mt-4 mt-3">Video Aperitivo: Motivação</h1>
-           <iframe width="640" height="360" src="https://www.youtube.com/embed/{{ video.youtube_id }}"
-                        title="YouTube video player" frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen></iframe>
+            <iframe id="ytplayer" type="text/html" width="640" height="360"
+            src="http://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&origin=http://example.com"
+            frameborder="0"/>
         </div>
     </div>
-
     <footer class="main-footer mt-5  pt-4 text-light">
         <div class="container">
             <div class="raw">
@@ -69,6 +66,5 @@
             </div>
         </div>
     </footer>
-
 </body>
 </html>
