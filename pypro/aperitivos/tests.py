@@ -17,5 +17,5 @@ def test_titulo_video(resp):
     assert_contains(resp, '<h1>Video Aperitivo: Motivação</h1>')
 
 
-def test_conteudo_video(resp):
-    assert_contains(resp, '<h1><iframe src="https://www.youtube.com/embed/{{ video.youtube_id }}" width="560" height="315" frameborder="0"')
+def test_conteudo_video(resp, video):
+    assert_contains(resp, f'<iframe src="https://www.youtube.com/embed/{video.youtube_id}"')
