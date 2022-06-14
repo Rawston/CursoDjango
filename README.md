@@ -5,7 +5,7 @@ Código desenvolvido no módulo de Django do Site Python Pro
 [![Python 3](https://pyup.io/repos/github/Rawston/CursoDjango/python-3-shield.svg)](https://pyup.io/repos/github/Rawston/CursoDjango/)
 [![Build Status](https://app.travis-ci.com/Rawston/CursoDjango.svg?branch=main)](https://app.travis-ci.com/Rawston/CursoDjango)
 
-[!Configurações Para novas dependências:](Criar .venv)
+[!Configurações Para novas dependências:](Criar .env)
 
 [!GIT]
 [!fatal: Authentication failed for:](Authttps://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)
