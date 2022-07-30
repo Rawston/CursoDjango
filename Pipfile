@@ -23,6 +23,7 @@ flake8 = "*"
 pytest-cov = "*"
 codecov = "*"
 ipykernel = "*"
+model-mommy = "*"
 
 [requires]
 python_version = "3.8"
