@@ -1,21 +1,32 @@
 import pytest
 from django.urls import reverse
-
+from pypro.aperitivos.models import Video
 from pypro.django_assertions import assert_contains
 
+@pytest.fixture
+def video(db):
+    v = Video(slug='motivacao', titulo='Video Aperitivo: Motivação', youtube_id='695772')
+    v.save()
+    return v
 
 @pytest.fixture
-def resp(client, db):
-    return client.get(reverse('aperitivos:video', args=('motivacao')))
+def resp(client, video):
+    return client.get(reverse('aperitivos:video', args=(video.slug,)))
 
+@pytest.fixture
+def resp_video_nao_encontrado(client, video):
+    return client.get(reverse('aperitivos:video', args=(video.slug+'video_nao_existente',)))
+
+def test_status_code_videi_nao_encontrado(resp_video_nao_encontrado):
+    assert resp_video_nao_encontrado.status_code == 404
 
 def test_status_code(resp):
     assert resp.status_code == 200
 
 
-def test_titulo_video(resp):
-    assert_contains(resp, 'Video Aperitivo: Motivação')
+def test_titulo_video(resp, video):
+    assert_contains(resp, video.titulo)
 
 
-def test_conteudo_video(resp):
-    assert_contains(resp, '<iframe src="http://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&origin"')
+def test_conteudo_video(resp, video):
+    assert_contains(resp, video.youtube_id)
